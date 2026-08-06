@@ -67,6 +67,7 @@ syn("unsent-text", "unsent-text", "deleted-text", "drafted-text")
 syn("dog", "dog", "old-dog", "dog-walk", "dog-tags", "leash", "dogs")
 syn("cat", "cat", "cats", "house-cat")
 syn("left-on-light", "porch-light", "porch-bulb", "kitchen-light", "stove-light", "oven-light", "lights-out-ritual")
+syn("street-lamp", "streetlight", "streetlamp", "parking-lot-light", "parking-lot-lamp", "lot-lamp")
 syn("plan", "day-plan", "morning-plan", "abandoned-plan", "before-work-plan",
     "to-do-list", "mental-list", "plan-decay")
 syn("sleep-math", "sleep-math", "insomnia-math")
@@ -101,6 +102,9 @@ T = lambda h, m: h * 60 + m
 KEEP_PAIRS = {
     tuple(sorted(p)): why for p, why in [
         ((T(22, 12), T(23, 12)), "left-on-light: the household's bulb doctrine, stated / the orphan bulb no doctrine covers, on a timer"),
+        ((T(0, 16), T(23, 22)), "street-lamp: wet asphalt, no rain in an hour / the moth's nightly argument"),
+        ((T(3, 7), T(5, 19)), "street-lamp: the moth working its quota / lamps burning past their useful hour"),
+        ((T(0, 16), T(3, 7)), "street-lamp: wet asphalt still, no moth / the moth working its quota"),
         ((T(0, 15), T(2, 34)), "hospital: ice-chips / er-doors"),
         ((T(0, 15), T(2, 7)), "hospital: ice-chips / nurse"),
         ((T(0, 17), T(3, 15)), "refrigerator: 12:17 a.m. the refrigerator / quarter past. the refrigerator"),
