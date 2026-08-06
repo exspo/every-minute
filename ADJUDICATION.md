@@ -71,6 +71,33 @@ remember" x3 · court in session reprised · same-minute twins (02:30/14:30,
 05:45/17:45) · crossing-guard and grandmother day arcs · new-father night arc
 · nurse charting arc · accidental sequences kept as intended (19:59→20:00).
 
+## The stated decision (r6 close-out)
+
+Six Destroyer rounds, ~360 adjudicated rewrites, three generations of
+instrument. Round 6's verdict named the honest exits: semantic
+nearest-neighbour scoring, or a stated and accepted decision that the corpus
+ships with a residual repetition rate no tag or lexical instrument can
+measure. This is that statement.
+
+What is measured and clean: verbatim and near-verbatim duplication, shared
+distinctive phrasing, same-image collisions under a canonicalized vocabulary
+within reading windows, family density, and every specific class six rounds
+of adversarial review surfaced — each fixed and gated. What is not
+measurable with these instruments: semantic convergence with disjoint
+vocabulary and disjoint tags, and shared syntax templates. Those classes have
+been reduced only by end-to-end reads (the whole corpus has now been read in
+reading order across rounds 3–6) and by the gates' printed reports, not
+eliminated by proof.
+
+The decision: the book ships with that residual. In a 1,440-poem book written
+in one voice about one ordinary day, what remains at this level — a dog seen
+many times, kitchens that behave like kitchens — is the texture of a
+single-author collection, not a defect class. The dog is now a documented
+suite (30 members, five same-joke pairs cut in r6), as are the other
+recurring presences; every suppression the instruments make is printed with
+membership or per-member counts; nothing is exempt silently. Anyone auditing
+the book starts from the same reports the author used.
+
 ## History
 
 - R1 (HIGH): per-hour QA blind across hours → 81 rewrites, first gates.
@@ -78,6 +105,16 @@ remember" x3 · court in session reprised · same-minute twins (02:30/14:30,
   lexical gate, 108 rewrites.
 - R3 (CRITICAL + REDESIGN): lexical overlap can't see images → full tag pass,
   image gate, ~130 rewrites.
+- R6 (CRITICAL + 2 HIGH + REDESIGN): the dog — the book's most frequent
+  character — sat in TEXTURE, unchecked and undocumented, with five same-joke
+  pairs; the bulb-left-on triple was invisible because three taggers chose
+  three labels; TEXTURE held scene words; regenerated reasons included
+  form-shaped boilerplate. → Dog/cat/left-on-light canonicalized and moved to
+  printed suites with 6 rewrites; TEXTURE cut to true furniture with a
+  per-member suppression report (count + closest pair) printed every run;
+  themes and places demoted from texture to printed suites; cited reasons
+  rewritten to name beats in words; the stated decision above adopted in
+  place of a seventh threshold pass.
 - R5 (CRITICAL + 3 HIGH + 1 MEDIUM + REDESIGN): the same-hour exemption was
   untested; keeps were STILL consulted after exemptions; 113 boilerplate
   reasons; plan-arc vocabulary fragmented; syntax templates invisible to both

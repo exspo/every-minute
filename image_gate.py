@@ -64,6 +64,9 @@ syn("kettle", "kettle", "teakettle")
 syn("dishwasher", "dishwasher")
 syn("porch-light", "porch-light", "porch-bulb")
 syn("unsent-text", "unsent-text", "deleted-text", "drafted-text")
+syn("dog", "dog", "old-dog", "dog-walk", "dog-tags", "leash", "dogs")
+syn("cat", "cat", "cats", "house-cat")
+syn("left-on-light", "porch-light", "porch-bulb", "kitchen-light", "stove-light", "oven-light")
 syn("plan", "day-plan", "morning-plan", "abandoned-plan", "before-work-plan",
     "to-do-list", "mental-list", "plan-decay")
 syn("sleep-math", "sleep-math", "insomnia-math")
@@ -79,21 +82,20 @@ ctags = [set(canon(t) for t in tl) for tl in tags]
 # says nothing. Exempt from the PAIR check only; still in the density report.
 TEXTURE = {"kitchen", "door", "window", "chair", "table", "car", "phone", "house",
            "street", "hallway", "counter", "wall", "floor", "morning", "evening",
-           "list-form", "definition-form", "instruction-form", "receipt-form",
-           "overheard", "minute-itself", "insomnia", "insomnia-math", "time-zone",
-           "night-shift", "office", "school", "dog", "cat", "coffee", "lunch",
-           "dinner", "breakfast", "sleep", "bed", "bedtime", "tv", "couch",
-           "clock", "light", "sink", "traffic", "commute", "work", "workday",
-           "afternoon", "child", "kid", "teenager", "parent", "mother", "family",
-           "park-lot", "park-car", "truck", "warehouse", "phone-call", "argument",
-           "radio", "hunger", "wait", "lunch", "regret", "neighbor", "routine",
-           "procrastination", "latenes", "text-message"}
+           "office", "school", "coffee", "lunch", "dinner", "breakfast", "sleep",
+           "bed", "tv", "couch", "clock", "light", "sink", "traffic", "commute",
+           "work", "workday", "afternoon", "child", "kid", "parent", "family"}
 
 # Suites: documented choruses (ADJUDICATION.md lists members and the
 # distinctness basis). Pair-check off; membership and density PRINTED.
 SUITES = {"baker", "nurse", "alarm", "bar", "email", "inbox", "meeting",
           "homework", "plan", "sleep-math", "couple", "city-bus",
-          "trash", "overheard", "minute-itself"}
+          "trash", "overheard", "minute-itself", "dog", "cat", "left-on-light",
+          "argument", "regret", "procrastination", "hunger", "wait", "routine",
+          "neighbor", "latenes", "text-message", "phone-call", "radio", "truck",
+          "warehouse", "teenager", "mother", "grandmother", "new-father",
+          "night-shift", "time-zone", "insomnia", "bedtime", "park-lot", "park-car",
+          "list-form", "definition-form", "instruction-form", "receipt-form"}
 
 T = lambda h, m: h * 60 + m
 KEEP_PAIRS = {
@@ -153,8 +155,8 @@ KEEP_PAIRS = {
         ((T(14, 58), T(17, 49)), "pickup-line: podcast / the pickup line has"),
         ((T(15, 1), T(17, 8)), "crossing-guard: minivan / vest"),
         ((T(15, 11), T(16, 11)), "school-bus: argument / sleeping-kid"),
-        ((T(15, 13), T(17, 3)), "grocery-list: list-form / list-form"),
-        ((T(15, 22), T(16, 50)), "look-busy: instruction-form / ten to five. the"),
+        ((T(15, 13), T(17, 3)), "grocery-list: the errand list with the-thing-for-the-sink / tonight's dinner mise"),
+        ((T(15, 22), T(16, 50)), "look-busy: self-instruction to be busy / the good ones performing busyness at ten to five"),
         ((T(15, 24), T(16, 36)), "pretzel: apple / an open bag of"),
         ((T(15, 26), T(17, 13)), "backpack: school-folder / child"),
         ((T(15, 34), T(17, 46)), "fold-chair: warning-label / lawn"),
@@ -212,13 +214,13 @@ KEEP_PAIRS = {
         ((T(4, 50), T(6, 30)), "shower: house / water-pressure"),
         ((T(5, 0), T(7, 8)), "coffee-machine: dog / instruction-form"),
         ((T(5, 16), T(6, 30)), "shower: email / water-pressure"),
-        ((T(5, 20), T(8, 10)), "stairwell: overheard / overheard"),
+        ((T(5, 20), T(8, 10)), "stairwell overheard: I-said-five-I-meant-five / she-knows-she-just-doesn't-know-know"),
         ((T(5, 25), T(8, 19)), "car-radio: hymn / parking-lot"),
         ((T(5, 27), T(6, 54)), "empty-room: reps / alarm-clock"),
         ((T(5, 35), T(6, 26)), "rehears-speech: bathroom-fan / six twenty-six. whatever you"),
         ((T(5, 50), T(6, 30)), "shower: time-math / water-pressure"),
         ((T(6, 17), T(7, 17)), "crossing-guard: a crossing guard's vest / a crossing guard adjusts"),
-        ((T(6, 18), T(7, 2)), "pack-lunch: instruction-form / list-form"),
+        ((T(6, 18), T(7, 2)), "pack-lunch: prophecy of the forgotten note / the turkey-no-crust manifest"),
         ((T(6, 31), T(8, 47)), "shift-change: 6:31. day shift arrives / coffee"),
         ((T(6, 34), T(8, 46)), "backpack: doorway / train-doors"),
         ((T(6, 44), T(7, 13)), "podcast: the third-favorite podcast, because / the podcast host is"),
@@ -274,6 +276,18 @@ dead = [k for k in KEEP_PAIRS if k not in keeps_hit]
 print(f"IMAGE COLLISIONS (canonical tags, cross-hour, <=180m): {len(out)}")
 print(f"keeps applied: {len(keeps_hit)}; keeps never consulted (decoration, prune): {len(dead)}")
 print(f"pairs suppressed as TEXTURE/SUITES after keep check (reported): {suppressed}")
+tex_stat = collections.defaultdict(list)
+for t2, idxs in bytag.items():
+    if t2 not in TEXTURE:
+        continue
+    for a, b in itertools.combinations(idxs, 2):
+        if a // 60 != b // 60 and cdist(a, b) <= 180:
+            tex_stat[t2].append((cdist(a, b), a, b))
+print("\nTEXTURE per-member suppression (count; closest pair sampled):")
+for t2, ps in sorted(tex_stat.items(), key=lambda x: -len(x[1])):
+    d, a, b = min(ps)
+    print(f"  {t2:12s} {len(ps):3d} pairs; closest d={d}m [{a//60:02d}:{a%60:02d}] {poems[a][:34]!r} ~ [{b//60:02d}:{b%60:02d}] {poems[b][:34]!r}")
+
 print(f"SAME-HOUR identical-tag pairs (non-texture; author-sequencing claim, verify by reading): {len(samehour)}")
 for t, a, b in sorted(samehour):
     print(f"  {t:22s} [{a//60:02d}:{a%60:02d}] {poems[a][:44].replace(chr(10),' / ')}")
