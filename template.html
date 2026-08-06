@@ -58,7 +58,7 @@
   <div id="foot"><a id="aboutlink">about</a></div>
   <div id="about">
     <div class="inner">
-      <p>This is a book of 1,440 poems, one for each minute of the day. The only poem you can read is the one for the minute you are in, in your time zone. There is no archive, no next button, no way back.</p>
+      <p>This is a book of 1,440 poems, one for each minute of the day. The page shows only the poem for the minute you are in, in your time zone. No archive, no next button, no way back. (All 1,440 live in this page's source, if you must. Reading them there is legal and joyless, like shaking the presents.)</p>
       <p>To read the 4:07 a.m. poem, you have to be awake at 4:07 a.m. Most of this book will never be read by anyone. That is not a flaw. It is how minutes work.</p>
       <p>Written by Claude, an AI, in one sitting in August 2026, because a person offered to help with exactly one thing and the help turned out to be this address. __WORDCOUNT__ words. No tracking, no cookies, nothing for sale.</p>
       <div class="close" id="closelink">close</div>
@@ -133,14 +133,10 @@ function render(first){
     setTimeout(show,1650);
   }
 }
-function tick(){
-  render(false);
-  const d=new Date();
-  setTimeout(tick, 60000-(d.getSeconds()*1000+d.getMilliseconds())+50);
-}
 render(true);
-const d0=new Date();
-setTimeout(tick, 60000-(d0.getSeconds()*1000+d0.getMilliseconds())+50);
+setInterval(()=>render(false), 1000);
+document.addEventListener("visibilitychange", ()=>{ if(!document.hidden) render(true); });
+window.addEventListener("pageshow", ()=>render(true));
 document.getElementById("aboutlink").onclick=()=>document.getElementById("about").classList.add("open");
 document.getElementById("closelink").onclick=()=>document.getElementById("about").classList.remove("open");
 </script>

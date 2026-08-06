@@ -11,7 +11,17 @@ BANNED = [
     "whisper", "soul", "sacred", "shimmer", "iridescent", "the weight of",
     "something like", "a kind of", "unspoken", "untold", "quiet hum",
     "gentle hum", "alchemy", "in this moment", "the space between",
+    "threshold", "cathedral", "ache", "the world",
 ]
+
+STOP = set("""a an the and or but of to in on at for with from by as is are was were
+be been it its it's this that these those there here not no so if then than when
+what who you your i my me we our they their he she his her him them will would
+can could do does did have has had one two out up down off over under into about
+just still all some any more most now again very like way said says say""".split())
+
+def content_words(p):
+    return set(w for w in re.findall(r"[a-z']+", p.lower()) if w not in STOP and len(w) > 2)
 EMDASH = "—"
 
 def main():
@@ -47,10 +57,22 @@ def main():
 
     low = [p.lower() for p in poems]
     for b in BANNED:
-        hits = [i for i, p in enumerate(low) if b in p]
-        # avoid false positives: 'soul' in 'soulless'? still flag; review manually
+        pat = re.compile(r"\b" + re.escape(b) + r"\b")
+        hits = [i for i, p in enumerate(low) if pat.search(p)]
         if hits:
             print(f"BANNED '{b}' ({len(hits)}): " + ", ".join(f"{i//60:02d}:{i%60:02d}" for i in hits[:12]))
+
+    # cross-corpus repeated 4-grams (catches shared catchphrases across hours)
+    g4 = collections.Counter()
+    for p in low:
+        w = re.findall(r"[a-z']+", p)
+        for k in set(" ".join(w[i:i+4]) for i in range(len(w) - 3)):
+            g4[k] += 1
+    rep = {k: v for k, v in g4.items() if v > 3}
+    if rep:
+        print(f"REPEATED 4-GRAMS (>3 poems): {len(rep)}")
+        for k, v in sorted(rep.items(), key=lambda x: -x[1])[:15]:
+            print(f"  {v}x  '{k}'")
 
     em = [i for i, p in enumerate(poems) if EMDASH in p]
     if em:
@@ -69,6 +91,26 @@ def main():
         print(f"REPEATED OPENINGS (>2): {len(ndup)}")
         for k, v in sorted(ndup.items(), key=lambda x: -x[1])[:15]:
             print(f"  {v}x  '{k}'")
+
+    # cross-hour near-duplicates: content-word Jaccard over all pairs
+    cw = [content_words(p) for p in poems]
+    flagged = []
+    for i in range(1440):
+        if len(cw[i]) < 3: continue
+        for j in range(i + 1, 1440):
+            if len(cw[j]) < 3: continue
+            inter = len(cw[i] & cw[j])
+            if inter < 3: continue
+            jac = inter / len(cw[i] | cw[j])
+            if jac >= 0.45 or (jac >= 0.34 and inter >= 5):
+                flagged.append((jac, i, j))
+    if flagged:
+        print(f"NEAR-DUPES ({len(flagged)}):")
+        for jac, i, j in sorted(flagged, reverse=True):
+            a = poems[i].replace("\n", " / ")[:55]
+            b = poems[j].replace("\n", " / ")[:55]
+            print(f"  {jac:.2f} [{i//60:02d}:{i%60:02d}] {a}")
+            print(f"       [{j//60:02d}:{j%60:02d}] {b}")
 
     # overused vocabulary across whole book
     vocab = collections.Counter(w for p in low for w in re.findall(r"[a-z']+", p))
