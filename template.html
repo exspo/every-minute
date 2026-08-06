@@ -96,19 +96,57 @@ const PAL = [
 ];
 function lerp(a,b,t){ return a+(b-a)*t; }
 function hex(c){ return parseInt(c,16); }
-function mix(c1,c2,t){
-  const r=Math.round(lerp(hex(c1.slice(1,3)),hex(c2.slice(1,3)),t));
-  const g=Math.round(lerp(hex(c1.slice(3,5)),hex(c2.slice(3,5)),t));
-  const b=Math.round(lerp(hex(c1.slice(5,7)),hex(c2.slice(5,7)),t));
-  return `rgb(${r},${g},${b})`;
+function mixv(c1,c2,t){
+  return [Math.round(lerp(hex(c1.slice(1,3)),hex(c2.slice(1,3)),t)),
+          Math.round(lerp(hex(c1.slice(3,5)),hex(c2.slice(3,5)),t)),
+          Math.round(lerp(hex(c1.slice(5,7)),hex(c2.slice(5,7)),t))];
+}
+function rgb(v){ return `rgb(${v[0]},${v[1]},${v[2]})`; }
+function mix(c1,c2,t){ return rgb(mixv(c1,c2,t)); }
+function lum(v){ return (0.2126*v[0]+0.7152*v[1]+0.0722*v[2])/255; }
+function hv(c){ return [hex(c.slice(1,3)),hex(c.slice(3,5)),hex(c.slice(5,7))]; }
+function hexlum(c){ return lum(hv(c)); }
+function mixv2(hexc,hexc2,t){
+  const a=hv(hexc), b=hv(hexc2);
+  return [0,1,2].map(i=>Math.round(a[i]+(b[i]-a[i])*t));
+}
+function chan(x){ x/=255; return x<=0.03928 ? x/12.92 : Math.pow((x+0.055)/1.055,2.4); }
+function relL(v){ return 0.2126*chan(v[0])+0.7152*chan(v[1])+0.0722*chan(v[2]); }
+function contrast(a,b){
+  const l1=relL(a), l2=relL(b);
+  return (Math.max(l1,l2)+0.05)/(Math.min(l1,l2)+0.05);
 }
 function setPalette(d){
   const h=d.getHours(), t=d.getMinutes()/60, n=(h+1)%24;
   const root=document.documentElement.style;
-  root.setProperty("--bg", mix(PAL[h][0],PAL[n][0],t));
-  root.setProperty("--fg", mix(PAL[h][1],PAL[n][1],t));
-  root.setProperty("--dim", mix(PAL[h][2],PAL[n][2],t));
-  setFavicon(mix(PAL[h][0],PAL[n][0],t), mix(PAL[h][1],PAL[n][1],t));
+  const bgv=mixv(PAL[h][0],PAL[n][0],t);
+  let fg, dim;
+  const darkH=hexlum(PAL[h][0])<0.5, darkN=hexlum(PAL[n][0])<0.5;
+  if(darkH===darkN){
+    fg=mix(PAL[h][1],PAL[n][1],t);
+    dim=mix(PAL[h][2],PAL[n][2],t);
+  }else{
+    // Polarity crossover (dawn, dusk): the background fades through the
+    // middle, so linear text mixing would meet it there. Use whichever
+    // hour's ink actually contrasts more with the mixed background,
+    // pushed toward its extreme while the background crosses.
+    const srcs=[h,n];
+    let push=Math.max(0, 1-Math.abs(lum(bgv)-0.5)*4);
+    // dusk/dawn dip: the sky passes through a deeper tone mid-crossing
+    for(let i=0;i<3;i++) bgv[i]=Math.round(bgv[i]*(1-push*0.28));
+    push=Math.max(0, 1-Math.abs(lum(bgv)-0.5)*4);
+    const cand=srcs.map(s=>{
+      const dark=hexlum(PAL[s][1])<0.5;
+      return [mixv2(PAL[s][1], dark?"#0a0a09":"#fdfcff", push),
+              mixv2(PAL[s][2], dark?"#3b3733":"#dcd7de", push*0.7)];
+    });
+    const pick=contrast(bgv,cand[0][0])>=contrast(bgv,cand[1][0])?0:1;
+    fg=rgb(cand[pick][0]); dim=rgb(cand[pick][1]);
+  }
+  root.setProperty("--bg", rgb(bgv));
+  root.setProperty("--fg", fg);
+  root.setProperty("--dim", dim);
+  setFavicon(rgb(bgv), fg);
 }
 let lastIcon="";
 function setFavicon(bg,fg){
