@@ -3,7 +3,8 @@
 A reader experiences sessions, not the whole book. The invariant: **no image
 or joke appears twice inside a 180-minute circular window from different hours
 without an entry in a gate's keep list or a suite below.** Same-hour repeats
-are one author's deliberate sequencing and are exempt from the pair check.
+are exempt from the pair check but printed in full and read (see next
+section) — the sequencing assumption is verified, not presumed.
 
 ## Same-hour repeats (policy revised, r5)
 
@@ -25,8 +26,12 @@ future edit re-checkable.
   named TEXTURE list (furniture words) and the SUITES below; both suppression
   volumes are printed with every run, and suite membership is printed
   minute-by-minute. Keep-pairs carry per-pair reasons and are checked before
-  any exemption. Current: **0 collisions · 1,113 texture pairs suppressed
-  (reported) · 231 annotated keeps.**
+  any exemption, with applied and never-consulted keeps counted separately;
+  every reason names both beats, derived from the two poems' own divergent
+  tags (pairs whose beats could not be distinguished were rewritten: the
+  office-jargon cluster, the wait-before-open pair, the copier-animal, the
+  afternoon-slump twins). Current: **0 collisions · 142 keeps, all firing,
+  0 decorative · 1,123 suppressed pairs, all counted in the output.**
 - `gate_v2.py` — lexical screen (session-weighted stemmed Jaccard, cross-hour
   4-grams, rare-word co-occurrence, short-poem quota). Current: 0 priority
   flags, 0 quota misses.
