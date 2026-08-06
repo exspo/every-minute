@@ -115,14 +115,16 @@ function timeLabel(d){
 }
 const poemEl=document.getElementById("poem");
 const timeEl=document.getElementById("time");
-let currentIdx=-1;
+let currentIdx=-1, pending=null;
 function render(first){
   const d=new Date();
   const idx=d.getHours()*60+d.getMinutes();
   setPalette(d);
   if(idx===currentIdx) return;
   currentIdx=idx;
+  if(pending){ clearTimeout(pending); pending=null; }
   const show=()=>{
+    pending=null;
     timeEl.textContent=timeLabel(d);
     poemEl.textContent=POEMS[idx];
     poemEl.classList.remove("fading");
@@ -130,7 +132,7 @@ function render(first){
   if(first){ show(); }
   else{
     poemEl.classList.add("fading");
-    setTimeout(show,1650);
+    pending=setTimeout(show,1650);
   }
 }
 render(true);
