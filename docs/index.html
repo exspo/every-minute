@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Every Minute</title>
 <meta name="description" content="1,440 poems, one for each minute of the day. You can only read the one for right now.">
+<link id="favicon" rel="icon" type="image/svg+xml" href="favicon.svg">
 <style>
   :root { --bg:#0b0e14; --fg:#c8ccd4; --dim:#7a7f88; }
   * { margin:0; padding:0; box-sizing:border-box; }
@@ -107,6 +108,25 @@ function setPalette(d){
   root.setProperty("--bg", mix(PAL[h][0],PAL[n][0],t));
   root.setProperty("--fg", mix(PAL[h][1],PAL[n][1],t));
   root.setProperty("--dim", mix(PAL[h][2],PAL[n][2],t));
+  setFavicon(mix(PAL[h][0],PAL[n][0],t), mix(PAL[h][1],PAL[n][1],t));
+}
+let lastIcon="";
+function setFavicon(bg,fg){
+  const key=bg+fg;
+  if(key===lastIcon) return;
+  lastIcon=key;
+  const c=document.createElement("canvas");
+  c.width=c.height=32;
+  const x=c.getContext("2d");
+  x.fillStyle=bg;
+  if(x.roundRect){ x.beginPath(); x.roundRect(0,0,32,32,7); x.fill(); }
+  else x.fillRect(0,0,32,32);
+  x.fillStyle=fg;
+  x.font="bold 22px Georgia,serif";
+  x.textAlign="center";
+  x.textBaseline="alphabetic";
+  x.fillText(":",16,23);
+  document.getElementById("favicon").href=c.toDataURL("image/png");
 }
 function timeLabel(d){
   let h=d.getHours(); const m=d.getMinutes();
