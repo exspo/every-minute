@@ -165,7 +165,7 @@ PHRASE_ALLOW = {"a man in a", "a woman in a", "a woman on a",
                 "if it is a", "it is a school", "is a school day", "a school day the",
                 "the last of the", "in the break room", "in a parked car",
                 "the size of a", "and will not be", "has decided this is",
-                "who will not be", "and you are still", "do not open the",
+                "who will not be", "do not open the",
                 "thank you come again", "in the lost and", "part of the day",
                 "the part of the"}
 
@@ -177,16 +177,22 @@ def cdist(i, j):
 
 flags = {}
 ALLOW_HIT = set()
+ALLOWED_FLAGS = {}
+PHRASE_HIT = collections.Counter()
 def add(i, j, why):
     k = tuple(sorted((i, j)))
     if k in ALLOW:
         ALLOW_HIT.add(k)
+        ALLOWED_FLAGS.setdefault(k, []).append(why)
         return
     flags.setdefault(k, []).append(why)
 
 for i in range(1440):
     for j in range(i + 1, 1440):
-        shared4 = G[i] & G[j] - PHRASE_ALLOW
+        removed = G[i] & G[j] & PHRASE_ALLOW
+        for ph in removed:
+            PHRASE_HIT[ph] += 1
+        shared4 = (G[i] & G[j]) - PHRASE_ALLOW
         if shared4:
             add(i, j, f"4gram:'{sorted(shared4)[0]}'")
         inter = C[i] & C[j]
@@ -217,8 +223,14 @@ def is_priority(whys, d):
     return any("4gram" in w for w in whys) or (d <= 180 and any(
         re.search(r"jac=0\.[4-9]", w) for w in whys))
 prio = {k: v for k, v in flags.items() if is_priority(v, cdist(*k))}
-print(f"FLAGGED PAIRS: {len(flags)}  PRIORITY (4gram anywhere, or <=180m jac>=0.40): {len(prio)}")
+prio_allowed = {k: v for k, v in ALLOWED_FLAGS.items() if is_priority(v, cdist(*k))}
+print(f"FLAGGED PAIRS: {len(flags)}  PRIORITY after allows: {len(prio)}  "
+      f"(priority-class pairs inside ALLOW, suppressed with reasons: {len(prio_allowed)})")
 print(f"ALLOW entries: {len(ALLOW)}; consulted this run: {len(ALLOW_HIT)}; never consulted (prune): {len(ALLOW - ALLOW_HIT)}")
+dead_ph = [ph for ph in PHRASE_ALLOW if PHRASE_HIT[ph] == 0]
+print(f"PHRASE_ALLOW entries: {len(PHRASE_ALLOW)}; pair-comparisons suppressed per entry: "
+      + ", ".join(f"'{ph}':{PHRASE_HIT[ph]}" for ph in sorted(PHRASE_ALLOW)) )
+print(f"PHRASE_ALLOW never consulted (prune): {len(dead_ph)} {sorted(dead_ph)}")
 for (i, j), whys in sorted(flags.items(), key=lambda x: cdist(*x[0])):
     print(f"[{i//60:02d}:{i%60:02d}]~[{j//60:02d}:{j%60:02d}] d={cdist(i,j)}m  {'; '.join(whys[:2])}")
     print(f"   A: {poems[i][:72].replace(chr(10), ' / ')}")

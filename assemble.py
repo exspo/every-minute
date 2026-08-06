@@ -121,6 +121,10 @@ def main():
     if "--report-only" in sys.argv:
         return
 
+    # Regenerate the record's numbers from the gates before any build ships
+    import subprocess, sys as _sys
+    subprocess.run([_sys.executable, str(ROOT / "sync_record.py")], check=True)
+
     # Build site
     SITE.mkdir(exist_ok=True)
     tpl = (ROOT / "template.html").read_text()
