@@ -47,21 +47,34 @@ future edit re-checkable.
   exists. The gates certify the absence of the failure classes four Destroyer
   rounds found, not the absence of all repetition.
 
-## Suites — documented choruses (member lists print from image_gate.py)
+## Suites — every pair-check exemption, documented (counts print from image_gate.py)
 
-Counts below are the gate's own output, not memory: alarm 13 (the night's
-percussion; snooze-label/definition pair and waiting-alarm pair were cut) ·
-baker 16 (the pre-dawn trade, incl. the 5:17→5:40 deliberate cross-reference)
-· bar 15 across 16:27–01:50 (hour 21 cut from five interior beats to two;
-current worst window is four beats of which two are exterior) · city-bus 14
-(school-bus is a separate tag) · email 8 + inbox 1 (the white-collar
-bloodstream; the twin midnight-email jokes and two staleness jokes were cut)
-· homework 5 (was 8) · meeting 10 · nurse 18 (hospital night runs on them) ·
-overheard 33 (each a different line — the found-form quota at work) ·
-sleep-math 4 (author-paired at both ends of the night) · to-do-list 6 (the
-plan's decay) · trash 8 (post-cull: instruction, mop-run, raccoon, tipped bin,
-jogger's landmark, last bite, pizza box, dumpster backdrop — one bin-to-curb
-poem remains) · couple 4 · minute-itself 22.
+A suite is a deliberate acceptance: identical-tag pairs inside these families
+are NOT checked pairwise, because recurrence is the family's nature. That is a
+choice, not an instrument limit, and this list is exhaustive — a tag is either
+specific (pair-checked), a suite below, or furniture (TEXTURE, with a
+per-member suppression report printed every run). Same-joke pairs inside
+suites were hunted by the density report and by end-to-end reads in rounds
+3–7 (dog 29→24 after five same-joke cuts; bulb-family 6→4 with the two
+surviving window pairs entered as named keeps and the family returned to the
+pair check in r7).
+
+Characters — a day contains them repeatedly by design: dog 24 · cat 14 ·
+nurse 18 · baker 16 · night-shift 12 · teenager 7 · new-father 7 ·
+grandmother 5 · mother 5 · couple 4.
+
+Places and their traffic — where the day happens: bar 15 · city-bus 14 ·
+park-lot 13 · truck 9 · radio 7 · trash 7 · warehouse 6 · park-car 5.
+
+Hour-themes — the brief's own arc assigns them: minute-itself 22 · alarm 13 ·
+plan 12 · meeting 11 · time-zone 11 · sleep-math 9 · email 8 + inbox 1 ·
+argument 8 · phone-call 7 · homework 5 · hunger 5 · procrastination 5 ·
+wait 5 · regret 4 · text-message 4 · bedtime 3 · insomnia 3 · latenes 3 ·
+neighbor 3 · routine 2.
+
+Forms — BRIEF.md mandates ≥4 found-forms per hour, so their volume is the
+quota working: list-form 48 · instruction-form 37 · overheard 32 ·
+definition-form 28 · receipt-form 12.
 
 ## Arcs, cast, mirrors (unchanged from r3, verified still present)
 
@@ -71,32 +84,33 @@ remember" x3 · court in session reprised · same-minute twins (02:30/14:30,
 05:45/17:45) · crossing-guard and grandmother day arcs · new-father night arc
 · nurse charting arc · accidental sequences kept as intended (19:59→20:00).
 
-## The stated decision (r6 close-out)
+## The stated decision (r7-corrected)
 
-Six Destroyer rounds, ~360 adjudicated rewrites, three generations of
-instrument. Round 6's verdict named the honest exits: semantic
-nearest-neighbour scoring, or a stated and accepted decision that the corpus
-ships with a residual repetition rate no tag or lexical instrument can
-measure. This is that statement.
+Round 7 rejected the first draft of this decision for conflating two different
+things, and it was right: a residual the instruments *cannot see* and a
+residual the instruments are *told to ignore* are not the same. Both exist
+here, and this statement now names each.
 
-What is measured and clean: verbatim and near-verbatim duplication, shared
-distinctive phrasing, same-image collisions under a canonicalized vocabulary
-within reading windows, family density, and every specific class six rounds
-of adversarial review surfaced — each fixed and gated. What is not
-measurable with these instruments: semantic convergence with disjoint
-vocabulary and disjoint tags, and shared syntax templates. Those classes have
-been reduced only by end-to-end reads (the whole corpus has now been read in
-reading order across rounds 3–6) and by the gates' printed reports, not
-eliminated by proof.
+Told to ignore, on the record: the suites above. For those families, in-window
+recurrence is accepted as the book's texture, family by family, with counts
+printed every run and same-joke pairs inside them cut whenever a round's read
+found one (most recently the bulb pair across midnight and five dog pairs).
+Anything not in the suite list or TEXTURE is pair-checked; keeps carry reasons
+that name both beats; keeps that stop firing are pruned, not kept as
+decoration.
 
-The decision: the book ships with that residual. In a 1,440-poem book written
-in one voice about one ordinary day, what remains at this level — a dog seen
-many times, kitchens that behave like kitchens — is the texture of a
-single-author collection, not a defect class. The dog is now a documented
-suite (30 members, five same-joke pairs cut in r6), as are the other
-recurring presences; every suppression the instruments make is printed with
-membership or per-member counts; nothing is exempt silently. Anyone auditing
-the book starts from the same reports the author used.
+Cannot see, stated plainly: semantic convergence with disjoint vocabulary and
+disjoint tags, and shared syntax templates. Those classes were reduced only by
+reading — the corpus has been read end to end across rounds 3–7 — and are not
+eliminated by proof. No tag or lexical instrument here measures them; a
+semantic nearest-neighbour pass is the known better instrument and was not
+built.
+
+The decision: the book ships with both residuals as bounded above. In a
+1,440-poem book in one voice about one ordinary day, the accepted texture — a
+dog seen two dozen times, bars that fill at night, alarms that go off at dawn
+— is the fabric of the form. Anyone auditing the book starts from the same
+printed reports and this record.
 
 ## History
 
@@ -105,6 +119,17 @@ the book starts from the same reports the author used.
   lexical gate, 108 rewrites.
 - R3 (CRITICAL + REDESIGN): lexical overlap can't see images → full tag pass,
   image gate, ~130 rewrites.
+- R7 (CRITICAL + 2 HIGH + 1 MEDIUM + REDESIGN): the r6 light-canonicalization
+  routed straight into SUITES, suppressing the very class it claimed to fix
+  (one-light-for-nobody shipped twice, 73 minutes across midnight); SUITES
+  held 30 undocumented tags against an in-code claim of documentation;
+  form-shaped keep reasons persisted; one granularity variant unmapped. →
+  Bulb pair cut, 20:03's porch-light line rewritten, the ritual variant
+  mapped, left-on-light returned to the pair check with named keeps; every
+  suite now documented with its count and basis (see roster above); the two
+  dead keeps pruned; the eight remaining form-shaped reasons rewritten as
+  beats; the decision itself rewritten to distinguish told-to-ignore from
+  cannot-see.
 - R6 (CRITICAL + 2 HIGH + REDESIGN): the dog — the book's most frequent
   character — sat in TEXTURE, unchecked and undocumented, with five same-joke
   pairs; the bulb-left-on triple was invisible because three taggers chose
