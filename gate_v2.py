@@ -160,6 +160,19 @@ allow(T(9, 6), T(14, 2))  # nurse charting arc (5 kept)
 allow(T(9, 6), T(14, 2))  # nurse charting the time
 allow(T(9, 9), T(13, 9))  # the plan's decay, an arc
 
+allow(T(9, 19), T(9, 40))    # school-day family, same hour: missed-bus victor / long division elsewhere-benign
+allow(T(9, 40), T(12, 40))   # school-day family, farthest members: long division / cafeteria volume
+allow(T(7, 24), T(8, 0))     # working men: sandwich steered with a knee / Corolla merging on faith
+allow(T(8, 0), T(8, 38))     # working men: Corolla on faith / vest waving the truck back, unhurried
+allow(T(7, 24), T(8, 38))    # working men: knee-steered sandwich / two-finger truck wave
+allow(T(5, 14), T(7, 24))    # working men: vest waiting at an empty crosswalk / sandwich at the wheel
+allow(T(5, 14), T(8, 0))     # working men: empty-crosswalk patience / merging on faith
+allow(T(13, 17), T(15, 38))  # working men: hard hat asleep, boots on dash / lunch at 3:38 because the job allowed it
+allow(T(15, 38), T(17, 29))  # working men: lunch when the job let him / suit jacket, lottery ticket and a banana
+allow(T(12, 47), T(13, 51))  # working women: rotisserie chicken across the lot / barcode gun chirping yes
+allow(T(7, 56), T(9, 31))    # parked cars: key not turned yet / guard's off-duty coffee (also an image-gate keep)
+allow(T(1, 0), T(1, 56))     # last-of-the, same hour: the floor drain takes the day / the ice melts and the shift ends
+
 # recurring-cast phrases: threads and found-form families, adjudicated
 PHRASE_ALLOW = {"a man in a", "a woman in a", "a woman on a",
                 "if it is a", "it is a school", "is a school day", "a school day the",
@@ -189,10 +202,11 @@ def add(i, j, why):
 
 for i in range(1440):
     for j in range(i + 1, 1440):
-        removed = G[i] & G[j] & PHRASE_ALLOW
+        d0 = cdist(i, j)
+        removed = G[i] & G[j] & PHRASE_ALLOW if d0 > 180 else set()
         for ph in removed:
             PHRASE_HIT[ph] += 1
-        shared4 = (G[i] & G[j]) - PHRASE_ALLOW
+        shared4 = (G[i] & G[j]) - removed
         if shared4:
             add(i, j, f"4gram:'{sorted(shared4)[0]}'")
         inter = C[i] & C[j]
@@ -228,7 +242,7 @@ print(f"FLAGGED PAIRS: {len(flags)}  PRIORITY after allows: {len(prio)}  "
       f"(priority-class pairs inside ALLOW, suppressed with reasons: {len(prio_allowed)})")
 print(f"ALLOW entries: {len(ALLOW)}; consulted this run: {len(ALLOW_HIT)}; never consulted (prune): {len(ALLOW - ALLOW_HIT)}")
 dead_ph = [ph for ph in PHRASE_ALLOW if PHRASE_HIT[ph] == 0]
-print(f"PHRASE_ALLOW entries: {len(PHRASE_ALLOW)}; pair-comparisons suppressed per entry: "
+print(f"PHRASE_ALLOW entries: {len(PHRASE_ALLOW)} (suppress OUT-of-window only; in-window shared phrases flag normally); out-of-window co-occurrence count per entry: "
       + ", ".join(f"'{ph}':{PHRASE_HIT[ph]}" for ph in sorted(PHRASE_ALLOW)) )
 print(f"PHRASE_ALLOW never consulted (prune): {len(dead_ph)} {sorted(dead_ph)}")
 for (i, j), whys in sorted(flags.items(), key=lambda x: cdist(*x[0])):

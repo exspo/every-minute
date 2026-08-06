@@ -36,9 +36,9 @@ density flags (>3 in a 90-min window spanning 2+ hours):
   4x bar: 00:21 01:05 01:11 01:50 16:27 17:15 17:33 17:40 19:24 20:33 20:54 21:04 21:44 22:39 23:27
 
 gate_v2.py:
-FLAGGED PAIRS: 104  PRIORITY after allows: 0  (priority-class pairs inside ALLOW, suppressed with reasons: 109)
-ALLOW entries: 115; consulted this run: 115; never consulted (prune): 0
-PHRASE_ALLOW entries: 19; pair-comparisons suppressed per entry: 'a man in a':36, 'a school day the':1, 'a woman in a':3, 'a woman on a':1, 'and will not be':3, 'do not open the':1, 'has decided this is':3, 'if it is a':3, 'in a parked car':3, 'in the break room':6, 'in the lost and':1, 'is a school day':3, 'it is a school':6, 'part of the day':1, 'thank you come again':1, 'the last of the':6, 'the part of the':1, 'the size of a':3, 'who will not be':3
+FLAGGED PAIRS: 103  PRIORITY after allows: 0  (priority-class pairs inside ALLOW, suppressed with reasons: 121)
+ALLOW entries: 127; consulted this run: 127; never consulted (prune): 0
+PHRASE_ALLOW entries: 19 (suppress OUT-of-window only; in-window shared phrases flag normally); out-of-window co-occurrence count per entry: 'a man in a':21, 'a school day the':1, 'a woman in a':2, 'a woman on a':1, 'and will not be':3, 'do not open the':1, 'has decided this is':2, 'if it is a':1, 'in a parked car':2, 'in the break room':6, 'in the lost and':1, 'is a school day':1, 'it is a school':4, 'part of the day':1, 'thank you come again':1, 'the last of the':5, 'the part of the':1, 'the size of a':3, 'who will not be':3
 PHRASE_ALLOW never consulted (prune): 0 []
 0 quota misses
 ```
@@ -51,12 +51,16 @@ Scope notes on those prints:
 - gate_v2.py's exemption structures are ALLOW (pairwise, beat-named,
   consultation-counted), and PHRASE_ALLOW — nineteen 4-gram phrases carried
   by documented families, per-entry suppression counts printed. The largest,
-  "a man in a" (36 comparisons), is the working-men vignette thread; the
+  "a man in a", is the working-men vignette thread (its live count prints in
+  the generated block); the
   school-day conditional phrases belong to the "if it is a school day"
   family, capped at three spread instances in r1 and re-affirmed here: the
   09:40/12:40 pair at the exact window edge is that family's two farthest
   members, kept. The gate prints priority both net of allows and the
   priority-class count inside ALLOW, so the bar's construction is visible.
+- PHRASE_ALLOW suppresses only outside the 180-minute window as of r10;
+  in-window shared phrases flag normally and stand adjudicated by name in
+  ALLOW.
 - The "priority after allows: 0" line means: nothing flagged that has not
   been adjudicated by name. The companion number (priority-class pairs inside
   ALLOW) is printed beside it so no one mistakes the residue for the corpus.
@@ -128,6 +132,16 @@ printed reports and this record.
   lexical gate, 108 rewrites.
 - R3 (CRITICAL + REDESIGN): lexical overlap can't see images → full tag pass,
   image gate, ~130 rewrites.
+- R10 (1 HIGH + 2 MEDIUM, verdict SHIP — the first non-cancel): all five
+  closure claims verified on independent runs (gates, sync idempotency, all
+  1,440 shipped poems element-checked). Open HIGH closed same night: the
+  sleeping-workers pair (13:17/14:21) cut; PHRASE_ALLOW given a distance
+  predicate (suppresses out-of-window only, in-window shared phrases flag
+  normally) and the twelve in-window phrase pairs adjudicated by name in
+  ALLOW; the typed count in this file's scope note replaced with a pointer
+  to the generated block; sync_record's docstring corrected to describe the
+  actual behavior (assemble.py regenerates unconditionally before builds;
+  --report-only runs do not touch the record).
 - R9 (CRITICAL + 2 HIGH + REDESIGN): PHRASE_ALLOW was a fourth silent
   suppression class (73 priority pairs hidden, 11 in-window, nothing
   printed, one dead entry); the list-form suite count was stale by the very
