@@ -6,46 +6,42 @@ without an entry in a gate's keep list or a suite below.** Same-hour repeats
 are exempt from the pair check but printed in full and read (see next
 section) — the sequencing assumption is verified, not presumed.
 
-## Same-hour repeats (policy revised, r5)
+## Same-hour repeats (third told-to-ignore class, named as such in r8)
 
-The "one author's deliberate sequencing" assumption was tested empirically in
-r5: the gate now prints every same-hour identical-tag pair with excerpts (94
-currently), and the full list was read end to end. It was not all deliberate —
-30 pairs were the same joke twice (shopping carts six minutes apart, two
-aprons, two deli-number jokes, twin pillows, twin day-verdicts, the window
-washer twice in four minutes) and were rewritten. What remains reads as
-development or form-contrast on inspection; the printed list makes every
-future edit re-checkable.
+Same-hour pairs are exempt from the pair check by rule — the third
+told-to-ignore class alongside suites and texture; the decision below names
+all three. The control is a printed list plus reads on the record: the gate
+prints every same-hour identical-tag pair with excerpts. Read end-to-end at
+94 pairs in r5 (30 same-joke rewrites) and again at 213 pairs in r8 after the
+suite tags joined the list (one further cut: the "Still open:" twin across
+midnight; the 02:25/02:40 tire-list echo kept as the insomniac mind's
+deliberate escalation). Future edits re-print the list.
 
-## Instruments (all run before any build ships; nothing suppressed silently)
+## Instruments — per-instrument scope and live output (r8 discipline)
 
-- `image_gate.py` v3 — canonical-vocabulary image check. Tags (hours_tags/,
-  one per poem from a model pass, hand-updated with every edit) are mapped
-  through a SYNONYMS table so granularity variants collide (trash-bag /
-  recycling-bin / dumpster → trash). Pair check runs on everything except a
-  named TEXTURE list (furniture words) and the SUITES below; both suppression
-  volumes are printed with every run, and suite membership is printed
-  minute-by-minute. Keep-pairs carry per-pair reasons and are checked before
-  any exemption, with applied and never-consulted keeps counted separately;
-  every reason names both beats, derived from the two poems' own divergent
-  tags (pairs whose beats could not be distinguished were rewritten: the
-  office-jargon cluster, the wait-before-open pair, the copier-animal, the
-  afternoon-slump twins). Current: **0 collisions · 142 keeps, all firing,
-  0 decorative · 1,123 suppressed pairs, all counted in the output.**
-- `gate_v2.py` — lexical screen (session-weighted stemmed Jaccard, cross-hour
-  4-grams, rare-word co-occurrence, short-poem quota). Current: 0 priority
-  flags, 0 quota misses.
+Each instrument's own printed output is the source for every number here; both
+gates now carry the same discipline (computed classifications, printed
+suppression volumes, consultation-counted allow lists).
+
+- `image_gate.py` — canonical-vocabulary image check. Live output: 0
+  collisions · 146 keeps, all firing, 0 decorative · 1,104 suppressed pairs
+  counted in the output · per-TEXTURE-member suppression report with the
+  closest pair sampled · suite membership printed minute-by-minute ·
+  same-hour list printed in full.
+- `gate_v2.py` — lexical screen. The "priority" classification (a 4-gram
+  anywhere, or a within-window Jaccard >= 0.40) is computed and printed by
+  the gate itself as of r8, not applied downstream. Live output: 104 raw
+  flags · 0 priority · 115 allow entries, all consulted, 0 never-consulted ·
+  0 quota misses. The 104 sub-priority flags are mid/far-window moderate
+  overlaps and rare-word co-occurrences; the within-window subset was
+  reviewed in rounds 2–5 and the acted-on bar is the printed priority line.
 - Density report: every canonical tag, max instances in any 90-minute window
-  spanning 2+ hours; >3 prints as a flag. Current flags, adjudicated below:
-  baker 5x (the pre-dawn chorus), bar 4x (of which two beats are exterior).
-- BRIEF.md's found-form quotas *require* many list/instruction/receipt/
-  overheard poems (>=4 per hour by design); forms are exempt from density but
-  their contents are pair-checked lexically. The self-referential
-  minute-itself poems are the book's spine and exempt as a class.
-- Limits, stated plainly: the tags are a model artifact; free-text granularity
-  bounds recall even after canonicalization, and no inter-rater measurement
-  exists. The gates certify the absence of the failure classes four Destroyer
-  rounds found, not the absence of all repetition.
+  spanning 2+ hours; >3 prints. Current flags, adjudicated: baker 5x (the
+  pre-dawn chorus), bar 4x (two of the four beats exterior).
+- Limits, stated plainly: the tags are a model artifact with no inter-rater
+  measurement; canonicalization closes label variants only when mapped; the
+  gates certify the absence of the failure classes eight Destroyer rounds
+  surfaced, not the absence of all repetition.
 
 ## Suites — every pair-check exemption, documented (counts print from image_gate.py)
 
@@ -91,7 +87,10 @@ things, and it was right: a residual the instruments *cannot see* and a
 residual the instruments are *told to ignore* are not the same. Both exist
 here, and this statement now names each.
 
-Told to ignore, on the record: the suites above. For those families, in-window
+Told to ignore, on the record — three classes: (1) the suites above; (2)
+same-hour pairs, printed in full and read on the record; (3) TEXTURE
+furniture words, with per-member suppression counts and closest pairs
+printed. For those families, in-window
 recurrence is accepted as the book's texture, family by family, with counts
 printed every run and same-joke pairs inside them cut whenever a round's read
 found one (most recently the bulb pair across midnight and five dog pairs).
@@ -119,6 +118,18 @@ printed reports and this record.
   lexical gate, 108 rewrites.
 - R3 (CRITICAL + REDESIGN): lexical overlap can't see images → full tag pass,
   image gate, ~130 rewrites.
+- R8 (CRITICAL + HIGH + 3 MEDIUM + REDESIGN): the record described
+  image_gate's discipline as "the gates'" while gate_v2 carried a downstream
+  "priority" number it never computed, ~100 dead allow entries (two citing
+  poems r7 had deleted), and seventeen unreasoned suppressions; same-hour was
+  an unnamed third told-to-ignore class anchored to a stale 94-pair read;
+  headline numbers were stale; the bulb census was wrong; the "Still open:"
+  twin crossed midnight inside the list-form suite. → gate_v2 instrumented to
+  compute priority and count allow consultations; allow list regenerated to
+  the 115 firing entries with named beats; the twin cut; street-lamp variants
+  canonicalized with named keeps; the 213-pair same-hour list re-read on the
+  record; this file re-synced to the instruments' live output; the decision
+  now names three told-to-ignore classes.
 - R7 (CRITICAL + 2 HIGH + 1 MEDIUM + REDESIGN): the r6 light-canonicalization
   routed straight into SUITES, suppressing the very class it claimed to fix
   (one-light-for-nobody shipped twice, 73 minutes across midnight); SUITES
