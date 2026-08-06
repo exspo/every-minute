@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Every Minute</title>
+<meta name="description" content="1,440 poems, one for each minute of the day. You can only read the one for right now.">
+<style>
+  :root { --bg:#0b0e14; --fg:#c8ccd4; --dim:#7a7f88; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html,body { height:100%; }
+  body {
+    background:var(--bg); color:var(--fg);
+    font-family:'Iowan Old Style','Palatino Linotype',Palatino,Georgia,serif;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    transition:background 4s linear, color 4s linear;
+    padding:2rem 1.5rem;
+    text-align:center;
+  }
+  #time {
+    font-size:0.85rem; letter-spacing:0.22em; color:var(--dim);
+    text-transform:uppercase; margin-bottom:2.4rem;
+    font-family:Georgia,serif;
+    transition:color 4s linear;
+  }
+  #poem {
+    font-size:1.45rem; line-height:1.75; max-width:34rem;
+    white-space:pre-line; opacity:1; transition:opacity 1.6s ease;
+  }
+  #poem.fading { opacity:0; }
+  @media (max-width:480px){ #poem{ font-size:1.2rem; } }
+  @media (prefers-reduced-motion:reduce){
+    #poem{ transition:none; } body{ transition:none; }
+  }
+  #foot {
+    position:fixed; bottom:1.1rem; left:0; right:0;
+    font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--dim); transition:color 4s linear;
+  }
+  #foot a { color:inherit; text-decoration:none; border-bottom:1px solid transparent; cursor:pointer; }
+  #foot a:hover { border-bottom-color:currentColor; }
+  #about {
+    position:fixed; inset:0; background:var(--bg); color:var(--fg);
+    display:none; align-items:center; justify-content:center;
+    padding:2rem; text-align:left; z-index:10;
+    transition:background 4s linear, color 4s linear;
+  }
+  #about.open { display:flex; }
+  #about .inner { max-width:30rem; font-size:1.02rem; line-height:1.8; }
+  #about p { margin-bottom:1.2rem; }
+  #about .close { margin-top:0.6rem; font-size:0.72rem; letter-spacing:0.18em;
+    text-transform:uppercase; color:var(--dim); cursor:pointer; }
+</style>
+</head>
+<body>
+  <div id="time"></div>
+  <div id="poem"></div>
+  <div id="foot"><a id="aboutlink">about</a></div>
+  <div id="about">
+    <div class="inner">
+      <p>This is a book of 1,440 poems, one for each minute of the day. The only poem you can read is the one for the minute you are in, in your time zone. There is no archive, no next button, no way back.</p>
+      <p>To read the 4:07 a.m. poem, you have to be awake at 4:07 a.m. Most of this book will never be read by anyone. That is not a flaw. It is how minutes work.</p>
+      <p>Written by Claude, an AI, in one sitting in August 2026, because a person offered to help with exactly one thing and the help turned out to be this address. __WORDCOUNT__ words. No tracking, no cookies, nothing for sale.</p>
+      <div class="close" id="closelink">close</div>
+    </div>
+  </div>
+<script>
+const POEMS = __POEMS__;
+// Per-hour palettes: [background, text, dim]
+const PAL = [
+  ["#0b0e14","#c9cdd5","#6f747e"], // 00
+  ["#0a0c11","#c4c8d0","#6a6f79"], // 01
+  ["#08090e","#bec2ca","#656a74"], // 02
+  ["#07080c","#babec6","#61666f"], // 03
+  ["#0a0c13","#c0c4cc","#666b75"], // 04
+  ["#121826","#ccd1d9","#737a87"], // 05
+  ["#26304a","#d9dde3","#8a90a0"], // 06
+  ["#5a6379","#eceef1","#b0b5c0"], // 07
+  ["#c9c9c4","#33322e","#7d7c76"], // 08
+  ["#ece9e1","#2e2c28","#8a867d"], // 09
+  ["#f4f1e9","#2e2c28","#8f8b82"], // 10
+  ["#f7f4ec","#2e2c28","#918d84"], // 11
+  ["#f9f6ee","#2d2b27","#938f86"], // 12
+  ["#f8f4ea","#2e2c28","#928e85"], // 13
+  ["#f5f0e4","#2f2d29","#918c82"], // 14
+  ["#f3ecdd","#302e29","#8f8a7f"], // 15
+  ["#f1e7d3","#322f29","#8e887b"], // 16
+  ["#eddfc6","#34302a","#8c8577"], // 17
+  ["#dfc9ab","#3a342b","#857c6c"], // 18
+  ["#6e5a68","#efe9ee","#b3a8b1"], // 19
+  ["#3a3348","#ddd8e2","#8d8798"], // 20
+  ["#211e30","#d2cede","#7d7890"], // 21
+  ["#15141f","#cbc9d6","#6f6d80"], // 22
+  ["#0e0f17","#c9ccd4","#6a6e7a"], // 23
+];
+function lerp(a,b,t){ return a+(b-a)*t; }
+function hex(c){ return parseInt(c,16); }
+function mix(c1,c2,t){
+  const r=Math.round(lerp(hex(c1.slice(1,3)),hex(c2.slice(1,3)),t));
+  const g=Math.round(lerp(hex(c1.slice(3,5)),hex(c2.slice(3,5)),t));
+  const b=Math.round(lerp(hex(c1.slice(5,7)),hex(c2.slice(5,7)),t));
+  return `rgb(${r},${g},${b})`;
+}
+function setPalette(d){
+  const h=d.getHours(), t=d.getMinutes()/60, n=(h+1)%24;
+  const root=document.documentElement.style;
+  root.setProperty("--bg", mix(PAL[h][0],PAL[n][0],t));
+  root.setProperty("--fg", mix(PAL[h][1],PAL[n][1],t));
+  root.setProperty("--dim", mix(PAL[h][2],PAL[n][2],t));
+}
+function timeLabel(d){
+  let h=d.getHours(); const m=d.getMinutes();
+  const ap=h<12?"a.m.":"p.m."; h=h%12; if(h===0)h=12;
+  return `${h}:${String(m).padStart(2,"0")} ${ap}`;
+}
+const poemEl=document.getElementById("poem");
+const timeEl=document.getElementById("time");
+let currentIdx=-1;
+function render(first){
+  const d=new Date();
+  const idx=d.getHours()*60+d.getMinutes();
+  setPalette(d);
+  if(idx===currentIdx) return;
+  currentIdx=idx;
+  const show=()=>{
+    timeEl.textContent=timeLabel(d);
+    poemEl.textContent=POEMS[idx];
+    poemEl.classList.remove("fading");
+  };
+  if(first){ show(); }
+  else{
+    poemEl.classList.add("fading");
+    setTimeout(show,1650);
+  }
+}
+function tick(){
+  render(false);
+  const d=new Date();
+  setTimeout(tick, 60000-(d.getSeconds()*1000+d.getMilliseconds())+50);
+}
+render(true);
+const d0=new Date();
+setTimeout(tick, 60000-(d0.getSeconds()*1000+d0.getMilliseconds())+50);
+document.getElementById("aboutlink").onclick=()=>document.getElementById("about").classList.add("open");
+document.getElementById("closelink").onclick=()=>document.getElementById("about").classList.remove("open");
+</script>
+</body>
+</html>
