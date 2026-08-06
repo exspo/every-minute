@@ -5,6 +5,17 @@ or joke appears twice inside a 180-minute circular window from different hours
 without an entry in a gate's keep list or a suite below.** Same-hour repeats
 are one author's deliberate sequencing and are exempt from the pair check.
 
+## Same-hour repeats (policy revised, r5)
+
+The "one author's deliberate sequencing" assumption was tested empirically in
+r5: the gate now prints every same-hour identical-tag pair with excerpts (94
+currently), and the full list was read end to end. It was not all deliberate —
+30 pairs were the same joke twice (shopping carts six minutes apart, two
+aprons, two deli-number jokes, twin pillows, twin day-verdicts, the window
+washer twice in four minutes) and were rewritten. What remains reads as
+development or form-contrast on inspection; the printed list makes every
+future edit re-checkable.
+
 ## Instruments (all run before any build ships; nothing suppressed silently)
 
 - `image_gate.py` v3 — canonical-vocabulary image check. Tags (hours_tags/,
@@ -62,6 +73,13 @@ remember" x3 · court in session reprised · same-minute twins (02:30/14:30,
   lexical gate, 108 rewrites.
 - R3 (CRITICAL + REDESIGN): lexical overlap can't see images → full tag pass,
   image gate, ~130 rewrites.
+- R5 (CRITICAL + 3 HIGH + 1 MEDIUM + REDESIGN): the same-hour exemption was
+  untested; keeps were STILL consulted after exemptions; 113 boilerplate
+  reasons; plan-arc vocabulary fragmented; syntax templates invisible to both
+  gates. → Same-hour list printed and read (30 rewrites), ordering actually
+  fixed with hit-counting, reasons regenerated to name beats, plan/sleep-math
+  canonicalized, the pharmacy/agenda template pair cut. Known open limit:
+  no gate sees shared syntax; that class is only covered by end-to-end reads.
 - R4 (CRITICAL + 2 HIGH + REDESIGN): the GENERIC exemption hid the r3
   families and made the keep annotations unreachable; family counts in this
   file were wrong; free-text tag granularity blinds exact matching. →

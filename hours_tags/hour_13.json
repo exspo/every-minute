@@ -6,7 +6,8 @@
    "office-fridge"
   ],
   [
-   "meeting-agenda"
+   "meeting",
+   "agenda"
   ],
   [
    "pallet",
@@ -49,8 +50,7 @@
    "phone-alarm"
   ],
   [
-   "office-jargon",
-   "overheard"
+   "fax-machine"
   ],
   [
    "taco-truck"
@@ -85,7 +85,7 @@
    "shift-change"
   ],
   [
-   "riding-mower"
+   "gravel-truck"
   ],
   [
    "silence"
@@ -195,8 +195,7 @@
    "window"
   ],
   [
-   "office-jargon",
-   "end-of-day"
+   "fragile-box"
   ],
   [
    "paperwork",
