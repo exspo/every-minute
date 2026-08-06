@@ -76,7 +76,7 @@
    "postponed-task"
   ],
   [
-   "bartender"
+   "movie-letout"
   ],
   [
    "car-not-them"
@@ -97,8 +97,7 @@
    "driveway"
   ],
   [
-   "bar",
-   "restaurant-closing"
+   "taco-truck"
   ],
   [
    "hold-music",
@@ -153,7 +152,8 @@
    "car-lock"
   ],
   [
-   "trash-night"
+   "night-shower",
+   "early-flight"
   ],
   [
    "bar",
@@ -187,8 +187,7 @@
    "calling-a-kid"
   ],
   [
-   "bar",
-   "kitchen-close"
+   "night-starting"
   ],
   [
    "freezer"

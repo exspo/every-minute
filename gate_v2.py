@@ -190,6 +190,7 @@ allow(T(7, 7), T(13, 25))    # nobody-has-said: true yet / four minutes
 allow(T(0, 1), T(10, 1))     # minute-in (10:01 rewritten)
 allow(T(4, 19), T(13, 18))   # generic
 allow(T(0, 25), T(6, 32))    # only-one: oven light / dog's morning
+allow(T(1, 43), T(8, 50))    # parking garage: guard reads / radios mid-chorus (7h apart)
 allow(T(0, 51), T(7, 11))    # counters: keys / banana
 allow(T(10, 18), T(17, 42))  # not-in-a-hurry: retired man / food cart
 
